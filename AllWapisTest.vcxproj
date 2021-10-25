@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AllWapisTest.cpp" />
+    <ClCompile Include="Crypto.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="Mutexes.cpp" />
     <ClCompile Include="Network.cpp" />

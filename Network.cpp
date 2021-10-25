@@ -14,6 +14,7 @@
 #include "MainHeader.h"
 #pragma comment(lib,"wininet.lib")
 #pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "dnsapi.lib")
 
 using namespace std;
 

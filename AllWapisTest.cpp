@@ -13,6 +13,7 @@ int main()
     cout << "\n>>> Mutexes\n"; mutexes();
     cout << "\n>>> Filesystem\n"; filesystem();
     cout << "\n>>> Service\n"; service();
+    cout << "\n>>> Crypto\n"; crypto();
     cout << "\n<<< End\n";
     cin.get();
 }

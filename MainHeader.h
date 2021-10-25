@@ -19,3 +19,4 @@ extern int registry();
 extern int mutexes(); 
 extern int filesystem();
 extern int service();
+extern int crypto();
