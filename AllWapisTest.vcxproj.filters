@@ -15,36 +15,87 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AllWapisTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Processes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Network.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Registry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mutexes.cpp">
+    <ClCompile Include="Com.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileSystem.cpp">
+    <ClCompile Include="FileIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Service.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Crypto.cpp">
+    <ClCompile Include="Memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Services.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Synchronization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AccessControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Networking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Disk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Process.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainHeader.h">
+    <ClInclude Include="AccessControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Com.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Services.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Registry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Synchronization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Networking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Disk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

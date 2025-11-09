@@ -1,32 +1,38 @@
-#include "MainHeader.h"
-#include <windows.h>
-#include <iostream>
-#include <cstring>
-#include <iostream>
-#include <tchar.h>
+#include "Utils.h"
 
-
-
-std::string GetLastErrorAsString(LPCWSTR lpszFunction)
-{
-	// Retrieve the system error message for the last-error code
-
-	LPSTR messageBuffer = nullptr;
-	DWORD errorMessageID = GetLastError();
-	if (errorMessageID == 0) {
-		return std::string(); //No error message has been recorded
-	};
-	size_t size = FormatMessage(
-		//FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		0x00000100 | 0x00001000 | 0x00000200,
-		NULL,
-		errorMessageID,
-		//MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		0x10000000000,
-		(LPTSTR)&messageBuffer,
-		0, NULL);
-	std::string message(messageBuffer, size);
-	LocalFree(messageBuffer);
-	return message;
+void SetConsoleColor(int color) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
 }
 
+void PrintTestResult(const std::wstring& testName, bool success, const std::wstring& details) {
+    SetConsoleColor(COLOR_WHITE);
+    std::wcout << L"[";
+   
+    if (success) {
+        SetConsoleColor(COLOR_GREEN);
+        std::wcout << L"PASS";
+    } else {
+        SetConsoleColor(COLOR_RED);
+        std::wcout << L"FAIL";
+    }
+   
+    SetConsoleColor(COLOR_WHITE);
+    std::wcout << L"] " << testName;
+   
+    if (!details.empty()) {
+        SetConsoleColor(COLOR_YELLOW);
+        std::wcout << L" - " << details;
+    }
+   
+    SetConsoleColor(COLOR_WHITE);
+    std::wcout << std::endl;
+}
+
+void PrintSectionHeader(const std::wstring& sectionName) {
+    SetConsoleColor(COLOR_YELLOW);
+    std::wcout << L"\n" << std::wstring(80, L'=') << std::endl;
+    std::wcout << L" " << sectionName << std::endl;
+    std::wcout << std::wstring(80, L'=') << std::endl;
+    SetConsoleColor(COLOR_WHITE);
+}
