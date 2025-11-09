@@ -67,7 +67,6 @@ void Networking::TestInternetReadFile() {
             std::wstring tempFile = L"C:\\temp\\test_read.txt";
             std::ofstream outFile(tempFile, std::ios::binary);
             
-            // BUG FIX #2: Check if file opened successfully
             if (!outFile.is_open()) {
                 InternetCloseHandle(hUrl);
                 InternetCloseHandle(hInternet);
@@ -83,7 +82,7 @@ void Networking::TestInternetReadFile() {
             DeleteFileW(tempFile.c_str());
             InternetCloseHandle(hUrl);
         } else {
-            success = false;  // BUG FIX #3: Set success to false if InternetOpenUrl fails
+            success = false; 
         }
         InternetCloseHandle(hInternet);
     }
@@ -94,7 +93,6 @@ void Networking::TestInternetReadFile() {
 void Networking::TestGetAdaptersInfo() {
     ULONG size = 0;
     GetAdaptersInfo(NULL, &size);
-    // BUG FIX #4: Don't check GetLastError() before calling the function properly
     if (size == 0) {
         PrintTestResult(L"GetAdaptersInfo", false, L"Failed to get buffer size");
         return;
@@ -106,7 +104,7 @@ void Networking::TestGetAdaptersInfo() {
     
     if (success) {
         int count = 0;
-        PIP_ADAPTER_INFO pCurrent = pAdapter;  // BUG FIX #5: Don't modify pAdapter, use separate pointer
+        PIP_ADAPTER_INFO pCurrent = pAdapter;
         while (pCurrent) {
             count++;
             pCurrent = pCurrent->Next;
@@ -121,7 +119,6 @@ void Networking::TestGetAdaptersInfo() {
 void Networking::TestGetIpNetTable() {
     ULONG size = 0;
     GetIpNetTable(NULL, &size, FALSE);
-    // BUG FIX #6: Same issue - don't rely on GetLastError before proper call
     if (size == 0) {
         PrintTestResult(L"GetIpNetTable", false, L"Failed to get buffer size");
         return;
@@ -145,9 +142,8 @@ void Networking::TestIcmpEchoRequest() {
     HANDLE hIcmp = IcmpCreateFile();
     bool success = (hIcmp != INVALID_HANDLE_VALUE);
     if (success) {
-        // BUG FIX #7: Buffer size too small - need proper size for ICMP_ECHO_REPLY
         std::vector<BYTE> reply(sizeof(ICMP_ECHO_REPLY) + 32); // Add padding for data
-        char sendData[32] = "ping test";  // BUG FIX #8: Need actual data to send
+        char sendData[32] = "ping test"; 
         DWORD ret = IcmpSendEcho(hIcmp, inet_addr("8.8.8.8"), sendData, sizeof(sendData), NULL, reply.data(), (DWORD)reply.size(), 1000);
         success = (ret > 0);
         IcmpCloseHandle(hIcmp);
@@ -160,7 +156,6 @@ void Networking::TestIcmpEchoRequest() {
 void Networking::TestGetExtendedTcpTable() {
     ULONG size = 0;
     GetExtendedTcpTable(NULL, &size, TRUE, AF_INET, TCP_TABLE_OWNER_PID_ALL, 0);
-    // BUG FIX #9: Same pattern issue
     if (size == 0) {
         PrintTestResult(L"GetExtendedTcpTable", false, L"Failed to get buffer size");
         return;
@@ -195,7 +190,7 @@ void Networking::TestWinHttpConnect() {
                 if (success) success = WinHttpReceiveResponse(hRequest, NULL);
                 WinHttpCloseHandle(hRequest);
             } else {
-                success = false;  // BUG FIX #10: Set success to false if WinHttpOpenRequest fails
+                success = false;
             }
             WinHttpCloseHandle(hConnect);
         }
@@ -207,7 +202,6 @@ void Networking::TestWinHttpConnect() {
 // Test Windows Sockets: connect (TCP to example.com)
 void Networking::TestSocketConnect() {
     WSADATA wsaData;
-    // BUG FIX #11: Check WSAStartup result
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
         PrintTestResult(L"SocketConnect", false, L"WSAStartup failed");
         return;
@@ -216,12 +210,11 @@ void Networking::TestSocketConnect() {
     SOCKET sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     bool success = (sock != INVALID_SOCKET);
     if (success) {
-        sockaddr_in addr = {};  // BUG FIX #12: Initialize structure
+        sockaddr_in addr = {};
         addr.sin_family = AF_INET;
         addr.sin_port = htons(80);
         inet_pton(AF_INET, "93.184.216.34", &addr.sin_addr);  // example.com IP
         
-        // BUG FIX #13: Set socket timeout to avoid hanging
         DWORD timeout = 3000; // 3 seconds
         setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout));
         setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, (char*)&timeout, sizeof(timeout));
@@ -248,7 +241,7 @@ void Networking::TestGetAddrInfo() {
     bool success = (getaddrinfo("example.com", "80", &hints, &result) == 0);
     
     if (success && result) {
-        freeaddrinfo(result);  // BUG FIX #14: Free before PrintTestResult
+        freeaddrinfo(result);
         PrintTestResult(L"GetAddrInfo", true, L"Resolved example.com");
     } else {
         PrintTestResult(L"GetAddrInfo", false, L"Failed: " + std::to_wstring(WSAGetLastError()));
@@ -269,7 +262,6 @@ void Networking::TestGetHostName() {
     bool success = (gethostname(hostname, sizeof(hostname)) == 0);
     WSACleanup();
     
-    // BUG FIX #15: Proper string conversion from char* to wstring
     if (success) {
         std::string hostnameStr(hostname);
         std::wstring hostnameW(hostnameStr.begin(), hostnameStr.end());
@@ -290,7 +282,7 @@ void Networking::TestSocketListen() {
     SOCKET sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     bool success = (sock != INVALID_SOCKET);
     if (success) {
-        sockaddr_in addr = {};  // BUG FIX #16: Initialize structure
+        sockaddr_in addr = {};
         addr.sin_family = AF_INET;
         addr.sin_port = htons(8080);
         addr.sin_addr.s_addr = INADDR_ANY;
@@ -317,14 +309,13 @@ void Networking::TestPortScanning() {
     
     for (int port : ports) {
         SOCKET sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        if (sock == INVALID_SOCKET) continue;  // BUG FIX #17: Check socket creation
+        if (sock == INVALID_SOCKET) continue;
         
-        sockaddr_in addr = {};  // BUG FIX #18: Initialize structure
+        sockaddr_in addr = {}; 
         addr.sin_family = AF_INET;
         addr.sin_port = htons(port);
         inet_pton(AF_INET, "8.8.8.8", &addr.sin_addr);
         
-        // BUG FIX #19: Set very short timeout for port scanning
         DWORD timeout = 500; // 500ms
         setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char*)&timeout, sizeof(timeout));
         setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, (char*)&timeout, sizeof(timeout));
